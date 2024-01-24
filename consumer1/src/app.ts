@@ -2,23 +2,25 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { produceMessage } from "./producer";
 import { kafkaConfig } from "../../config/config";
+import { ConumerMessage } from "./consumer";
 
 dotenv.config();
 const app: Express = express();
-const port = 8001
+const port = process.env.PORT || 8002
 
 app.use(cookieParser()); 
 
 app.use(cors());
 
-const topic = kafkaConfig.TOPIC;
-const message = "hello world!";
 
-app.get('/api/test/producer' , (req,res) => {
-  produceMessage(topic , message)
+const topic = kafkaConfig.TOPIC;
+
+app.get('/api/test/consumer' , (req,res) => {
+    ConumerMessage(topic)
 })
+
+
 
 
 app.use((req, res, next) => {

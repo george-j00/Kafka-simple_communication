@@ -23,7 +23,3 @@ export const produceMessage = async (topic: string, message: string) => {
   }
 };
 
-const topic = kafkaConfig.TOPIC;
-const message: string = "Message from the producer";
-
-

@@ -9,27 +9,31 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.produceMessage = void 0;
+exports.ConumerMessage = void 0;
 const kafkajs_1 = require("kafkajs");
 const config_1 = require("../../config/config");
 const client = new kafkajs_1.Kafka({
     clientId: config_1.kafkaConfig.CLIENTID,
     brokers: config_1.kafkaConfig.BROKERS,
 });
-const producer = client.producer();
-const produceMessage = (topic, message) => __awaiter(void 0, void 0, void 0, function* () {
+const consumer = client.consumer({ groupId: config_1.kafkaConfig.GROUPID });
+const ConumerMessage = (topic) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield producer.connect();
-        yield producer
-            .send({
-            topic,
-            messages: [{ value: message }],
+        yield consumer.connect();
+        yield consumer.subscribe({ topic });
+        yield consumer
+            .run({
+            eachMessage: ({ message }) => __awaiter(void 0, void 0, void 0, function* () {
+                var _a;
+                const data = (_a = message.value) === null || _a === void 0 ? void 0 : _a.toString();
+                console.log(` *** Consumer 1 received message from '${topic}': ${data}`);
+            }),
         })
-            .then((res) => console.log("message sent successfully"))
-            .catch((err) => console.log("error sending message"));
+            .then(() => console.log("message consumed successfully"))
+            .catch((err) => console.log("error consuming message"));
     }
     catch (error) {
-        console.log("Erro publishing message:", error);
+        console.log("Erro consuming message:", error);
     }
 });
-exports.produceMessage = produceMessage;
+exports.ConumerMessage = ConumerMessage;

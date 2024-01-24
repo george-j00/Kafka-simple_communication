@@ -4,8 +4,8 @@
   "main": "app.ts",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/producer/src/app.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/producer/src/app.js\""
+    "start": "node dist/consumer1/src/app.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/consumer1/src/app.js\""
   },
   "author": "george jose",
   "license": "MIT",
