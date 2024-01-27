@@ -17,7 +17,7 @@ export const ConumerMessage = async (topic: string) => {
         eachMessage: async ({ message }) => {
           const data = message.value?.toString();
           console.log(` *** Consumer 1 received message from '${topic}': ${data}`);
-        },
+        }
       }) 
       .then(() => console.log("message consumed successfully"))
       .catch((err) => console.log("error consuming message"));
